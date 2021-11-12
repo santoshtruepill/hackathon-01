@@ -41,14 +41,14 @@ let accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {
 app.use(morgan('combined', { stream: accessLogStream }));
 
 //App route
-const appRoutes = require("./routes"); 
+const appRoutes = require("./routes");
 
 app.use("/", appRoutes);
 
 /**
  * Custom error handler
  * */
- app.use((err, req, res, next) => {
+app.use((err, req, res, next) => {
     // render the error page
     res.status(err.status || 500);
     res.json({
@@ -63,6 +63,6 @@ app.use("/", appRoutes);
  * Create Server
  */
 const httpServer = http.createServer(app);
-httpServer.listen(5000, () => {
+httpServer.listen(6000, () => {
     console.log('API IS UP AND RUNNING');
 });
