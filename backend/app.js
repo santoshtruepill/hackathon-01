@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const { seedContaminatedZones } = require('./helper');
+const { dropContaminatedZoneCollectionAndSeedData } = require('./helper');
 const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
@@ -67,6 +67,6 @@ app.use((err, req, res, next) => {
  */
 const httpServer = http.createServer(app);
 httpServer.listen(5000, () => {
-    seedContaminatedZones();
+    dropContaminatedZoneCollectionAndSeedData();
     console.log('API IS UP AND RUNNING');
 });
