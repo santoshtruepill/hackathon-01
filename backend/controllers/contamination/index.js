@@ -1,59 +1,29 @@
-const isUserLocationWithInArea = (
-  userLocation,
-  latitude,
-  longitude,
-  fenceRadius
-) => {
-  const [lat1, lon1] = userLocation;
-  const lat2 = latitude;
-  const lon2 = longitude;
+const { isUserLocationWithInArea } = require('../../helper');
+const ContaminatedSchema = require('../../models/contaminatedZone');
 
-  const factor = Math.PI / 180;
-  const dLat = (lat2 - lat1) * factor;
-  const dLon = (lon2 - lon1) * factor;
+exports.getContaminationAreaAndAlertWithIn5KmAnd100mts = async (req, res) => {
+    const lat = parseFloat(req.query.lat);
+    const lng = parseFloat(req.query.lng);
 
-  // Haversine formula: https://www.movable-type.co.uk/scripts/latlong.html
-  const angularDistance =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * factor) * Math.cos(lat2 * factor) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const chordLength = 2 * Math.atan2(Math.sqrt(angularDistance), Math.sqrt(1 - angularDistance));
+    const in5Km = [];
+    const in10mt = [];
 
-  const EARTH_RADIUS_KM = 6371; // appxoximate radius in km
-  const KM_TO_MILES = 0.621371; // 1 km = 0.621371 miles
+    return await ContaminatedSchema.find({}, (err, result) => {
+        if (err) {
+            throw err;
+        } else {
+            if (result.length > 0) {
+                for (d of result) {
+                    if (isUserLocationWithInArea([d.lat, d.long], lat, lng, 5)) {
+                        in5Km.push(d);
+                    }
 
-  const distance = EARTH_RADIUS_KM * chordLength * KM_TO_MILES;
-  return distance <= fenceRadius;
-};
-
-exports.getContaminationAreaAndAlertWithIn5KmAnd100mts = (req, res) => {
-  const lat = req.query.lat;
-  const lng = req.query.lng;
-
-  const in5Km = [];
-  const in10mt = [];
-
-  const data = [{
-    "lat": 19.067273,
-    "long": 72.9994922,
-    "name": "The Regenza by Tunga",
-    "contanment": true
-  },
-  {
-    "lat": 19.0663369,
-    "long": 72.9998197,
-    "name": "Big Bazaar-INORBIT MALLS",
-    "contanment": true
-  }]
-
-  for (d in data) {
-    if (isUserLocationWithInArea([d.lat, g.lng], lat, lng, 5)) {
-      in5Km.push(d);
-    }
-
-    if (isUserLocationWithInArea([d.lat, g.lng], lat, lng, 0.1)) {
-      in10mt.push(d);
-    }
-  }
-
-  return res.json({ in5Km, in10mt })
+                    if (isUserLocationWithInArea([d.lat, d.long], lat, lng, 0.1)) {
+                        in10mt.push(d);
+                    }
+                }
+            }
+        }
+        return res.json({ in5Km, in10mt });
+    });
 };

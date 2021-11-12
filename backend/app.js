@@ -7,6 +7,7 @@ const path = require('path');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const { seedContaminatedZones } = require('./helper');
+const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
 
