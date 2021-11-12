@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const { seedContaminatedZones } = require('./helper');
 
 const app = express();
 
@@ -59,10 +60,12 @@ app.use((err, req, res, next) => {
     });
 });
 
+
 /**
  * Create Server
  */
 const httpServer = http.createServer(app);
-httpServer.listen(6000, () => {
+httpServer.listen(5000, () => {
+    seedContaminatedZones();
     console.log('API IS UP AND RUNNING');
 });
