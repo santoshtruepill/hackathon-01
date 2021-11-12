@@ -1,11 +1,12 @@
 .notification {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  top: 50%;
+  left: 50%;
+  height: 50px;
+  width: 200px;
   background-color: beige;
   display: none;
+  transform: translate(-50%, -50%);
 }
 
 .display {

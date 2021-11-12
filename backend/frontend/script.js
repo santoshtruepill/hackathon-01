@@ -6,13 +6,13 @@ var mp3_url =
   "https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3";
 
 //Event listener
-button.addEventListener("click", showAlert);
+// button.addEventListener("click", showAlert);
 closeBtn.addEventListener("click", closeAlert);
 snooze.addEventListener("click", snoozeAlert);
 
 //Fucntions
 function showAlert() {
-  new Audio(mp3_url).play();
+  // new Audio(mp3_url).play();
   notification[0].classList.add("display");
 }
 
