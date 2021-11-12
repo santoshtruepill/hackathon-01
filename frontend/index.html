@@ -5,12 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="app">
+      <button id="show">Show</button>
+      <div class="notification">
+          <div id="heading">You are entering the ZONE</div>
+          <button id="close">Okay</button>
+          <button id="snooze">Snooze</button>
+      </div>
         <div id="map" style="width:100%;height:500px"></div>
         <script src="src/index.js">
         </script>
+        <script src="./script.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvzQ-eznsSJ6WaybiVkhCUMTEY017VXrw"></script>
         <script>
           let lastLocation = null;
